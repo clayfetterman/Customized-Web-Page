@@ -1,0 +1,40 @@
+<html>
+<head>
+<script>
+function CalcTip() {
+    let originalbill = document.getElementById('totalbill').value;
+    let tipamount = originalbill * 0.20;
+    document.getElementById('showtip').innerHTML = tipamount;
+}
+
+function SaveBill() {
+    let billValue = document.getElementById('totalbill').value;
+    localStorage.setItem('savedBill', billValue);
+    alert("Bill saved!");
+}
+
+function LoadBill() {
+    let savedValue = localStorage.getItem('savedBill');
+    if (savedValue !== null) {
+        document.getElementById('totalbill').value = savedValue;
+    } else {
+        alert("No saved bill found.");
+    }
+}
+</script>
+</head>
+
+<body>
+<h1>Tip Calculator</h1>
+
+<input id="totalbill">
+
+<button type="button" onclick="CalcTip()">
+Calculate Tip
+</button>
+
+<button type="button" onclick="SaveBill()">
+Save
+</button>
+
+<butt

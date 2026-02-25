@@ -1,0 +1,382 @@
+<!--
+Clay Fetterman, cfetterm
+Code based on my previous assignments: most code was reused with the exception of the identified "new functions"
+LLM Tooling (ChatGPT) was used for troubleshooting
+
+Notes:
+localStorage is a key (value-pair)
+It can ONLY hold strings: count values must be turned into a string when stored
+Realistically, don't need to worry about overflow on localStroge key. Would need to be considered in real deployment.
+ -->
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Are eBooks?</title>
+<script>
+	//initialize var (key) for localStorage
+	const storagekey = "visitcount";
+
+	// new function called on page load: checks if localStorage is accessible. If so, checks if first time visit. Else, adds 1 to current localStorage.
+	function setcount() {
+		if (typeof(Storage) == "undefined"){
+			alert("Sorry, your browser does not support local storage and we cannot personalize your webpage :(");
+			document.getElementById("usercount").innerHTML = "-1";
+		}
+		else {
+			// check for 1st time user
+			if (localStorage.getItem(storagekey) == null) {
+				document.getElementById("usercount").innerHTML = "0";
+				document.getElementById("usertype").innerHTML = "naive";
+				localStorage.setItem(storagekey, "0");
+			}
+			// for any previous user
+			else {
+				localStorage.setItem(storagekey, String(Number(localStorage.getItem(storagekey)) + 1));
+				document.getElementById("usercount").innerHTML = localStorage.getItem(storagekey);
+			}
+		}
+	}
+	
+	// new function called on page Load: assigns a var to usertype based on the usercount in localStorage
+	function setuser() {	
+		const i = Number(localStorage.getItem(storagekey)) || 0;
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			return;
+		}
+		
+		if (0 < i && i < 5) {
+			document.getElementById("usertype").innerHTML = "novice";
+		}
+		else if (4 < i && i < 11) {
+			document.getElementById("usertype").innerHTML = "typical";
+		}
+		else if (10 < i) {
+			document.getElementById("usertype").innerHTML = "advanced";
+		}
+	}
+	
+	// new function that enables/disables the help functions created in the previous assignment based on user profile: all off by default!
+	function customize() {
+		//universal
+		document.getElementById("pages").style.display='block';
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			document.getElementById("coachmarks_1").style.display='block'; //rest will be activated via buttons (if's for usertype)
+			document.getElementById("wizard").style.display='block';
+		}
+		//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+			document.getElementById("pages").style.display='block';
+			document.getElementById("copies").style.display='block';
+			document.getElementById("button").style.display='block';
+			document.getElementById("wizard").style.display='block';
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+			document.getElementById("pages").style.display='block';
+			document.getElementById("copies").style.display='block';
+			document.getElementById("button").style.display='block';
+			document.getElementById("popup").style.display='block';
+			document.getElementById("hiddeninfobutton").style.display='block';
+		}
+		//advanced user
+		if (document.getElementById("usertype").innerHTML == "advanced") {
+			document.getElementById("pages").style.display='block';
+			document.getElementById("copies").style.display='block';
+			document.getElementById("button").style.display='block';
+			document.getElementById("popup").style.display='block';
+			document.getElementById("hiddeninfobutton").style.display='block';
+			document.getElementById("settingsbutton").style.display='block';
+		}
+	}
+	
+
+	//old functions: user inputs and actions
+	function pagesenter() {
+		//universal
+		document.getElementById("coachmarks_1").style.display='none';
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			document.getElementById("coachmarks_2").style.display='block';
+			document.getElementById("copies").style.display='block';
+		}
+				//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+		
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+		
+		}
+		//advanced user
+		if (document.getElementById("advanced").innerHTML == "advanced") {
+		
+		}
+	}	
+	function copiesenter() {
+		//universal
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			document.getElementById("coachmarks_2").style.display='none';
+			document.getElementById("coachmarks_3").style.display='block';
+			document.getElementById("button").style.display='block';
+		}	
+		//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+		
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+		
+		}
+		//advanced user
+		if (document.getElementById("advanced").innerHTML == "advanced") {
+		
+		}		
+	}
+	function CalcTrees() {
+		//universal
+		const pages = Number(document.getElementById('pages').value);
+		const copies = Number(document.getElementById('copies').value);
+		const showtrees = (pages * copies) / 10000;
+		document.getElementById('showtrees').textContent = showtrees.toFixed(2);
+		document.getElementById("coachmarks_3").style.display='none';
+		document.getElementById("answer").style.display='block';
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+		
+		}
+		//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+		
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+		
+		}
+		//advanced user
+		if (document.getElementById("advanced").innerHTML == "advanced") {
+		
+		}
+	}
+	function pageshint() {
+		//universal
+		
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			document.getElementById("hint").innerHTML = "(enter an integer for number of pages)";
+			document.getElementById("hint").style.display='block';
+		}	
+		//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+			document.getElementById("hint").innerHTML = "(enter an integer for number of pages)";
+			document.getElementById("hint").style.display='block';			
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+		
+		}
+		//advanced user
+		if (document.getElementById("advanced").innerHTML == "advanced") {
+		
+		}
+	}
+	function copieshint() {
+		//universal
+
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			document.getElementById("hint").innerHTML = "(enter an integer for number of copies of the book to be published)";
+		}	
+		//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+			document.getElementById("hint").innerHTML = "(enter an integer for number of copies of the book to be published)";		
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+		
+		}
+		//advanced user
+		if (document.getElementById("advanced").innerHTML == "advanced") {
+		
+		}
+	}
+	function buttonhint() {
+		//universal
+		
+		//naive user
+		if (document.getElementById("usertype").innerHTML == "naive") {
+			document.getElementById("hint").innerHTML = "Click to calculate the pages x's the copies / 10k";
+		}	
+		//novice user
+		if (document.getElementById("usertype").innerHTML == "novice") {
+			document.getElementById("hint").innerHTML = "Click to calculate the pages x's the copies / 10k";		
+		}
+		//typical user
+		if (document.getElementById("usertype").innerHTML == "typical") {
+		
+		}
+		//advanced user
+		if (document.getElementById("advanced").innerHTML == "advanced") {
+		
+		}
+	}	
+	function wizard() {
+		//hide everything again: only wizard should be dispalyed to avoid confusion
+		document.getElementById("hint").innerHTML = " ";
+		document.getElementById("coachmarks_1").style.display='none';
+		document.getElementById("coachmarks_2").style.display='none';
+		document.getElementById("coachmarks_3").style.display='none';
+		document.getElementById("button").style.display='none';
+		document.getElementById("pages").style.display='block';
+		document.getElementById("copies").style.display='block';
+		const pages = 400;
+		const copies = 2000
+		document.getElementById("pages").value = pages;
+		document.getElementById("copies").value = copies;
+		const showtrees = (pages * copies) / 10000;
+		document.getElementById('showtrees').textContent = showtrees.toFixed(2);
+		document.getElementById("answer").style.display='block';
+	}	
+	function popup() {
+		alert("Manually enter in a number of pages (per book) and the number of copies (of the book printed) and click \"Calculate Trees Saved\"");
+	}
+	function hiddeninfo() {
+	document.getElementById("hiddeninfo").style.display='block';
+}
+	function settings() {
+		const panel = document.getElementById("settings");
+		panel.style.display = (panel.style.display === "none") ? "block" : "none";
+	}
+	function changeTheme() {
+		const selected = document.querySelector('input[name="myradio"]:checked').value;
+		if (selected === "gold") {
+			document.body.style.backgroundColor = "gold";
+		} 
+		else {
+			document.body.style.backgroundColor = "white";
+		}
+	}
+
+</script>
+</head>
+
+
+
+<!-- new code for tracking user (browser) visits to site and assigning a profile -->
+<body onload="setcount(); setuser(); customize()">
+
+<!-- create an HTML id element to track visit count outside of functions: here exclusivly for easier troubleshooting -->
+<p id = "usercount"></p>
+<p id = "usertype"></p>
+
+<!-- breadcrumbs -->
+<i> Green Computing Topics / Paperless / E-Books </i> 
+
+<!-- page text starts here -->
+<h1>What Are eBooks?</h1>
+
+<!-- Navigation Bar: modified code used from http://www.bigrigg.com/cmu881/energy/eq_navigation.txt -->
+[ <a href="newsonline.html">News Online</a> ]
+[ <a href="ClassMaterialOnline.html">Class Material Online</a> ]
+[ <a href="PaperlessOffice.html">Paperless Office</a> ]
+<p>eBooks, or electronic books, are digital versions of traditional printed books that can be read on devices like smartphones, tablets, e-readers, and computers. Instead of turning physical pages, readers swipe or tap to move through chapters. Many popular titles—novels, biographies, self-help books, and textbooks—are now available in both print and digital formats.</p>
+<p>For readers who only pick up a few books a year, eBooks offer a convenient way to read without needing to visit a bookstore or library. A book can be downloaded in seconds and read almost anywhere, whether at home, on a commute, or while traveling.</p>
+<h2>Why People Choose eBooks</h2>
+<p>One of the biggest advantages of eBooks is convenience. Readers can carry an entire library on a single device, making it easy to switch between books or revisit old favorites. Features like adjustable font size, built-in dictionaries, and night-reading modes can also make reading more comfortable, especially for those with vision strain or limited lighting.</p>
+<p>Cost can be another factor. eBooks are often cheaper than hardcover editions, and many classics or promotional titles are available for free. For casual readers, this lowers the barrier to trying new authors or genres without a large commitment.
+</p>
+<h2>How eBooks Fit Into Everyday Reading</h2>
+<p>For people who read a few books a year, eBooks don’t necessarily replace physical books—they often complement them. Some readers enjoy print books at home but prefer eBooks when traveling or waiting in line. Others appreciate being able to sample a chapter digitally before deciding whether to purchase a physical copy.
+</p>
+
+<!-- anchors added below -->
+<p>Libraries and <a href=https://www.barnesandnoble.com/b/ebooks-nook/_/N-8qa>bookstores</a> also support eBooks, allowing users to borrow or buy titles online. This flexibility makes reading more accessible, even for those with busy schedules or limited storage space at home.</p>
+<h2>Are eBooks Right for You?</h2>  
+<p>Whether eBooks are a good fit depends on personal preference. Some readers still prefer the feel and experience of a printed book, while others value the portability and features of digital reading. For many adults, eBooks provide an easy, low-effort way to read more often—without changing how they already enjoy books. The most popular device for reading E-Books is the <a href=https://www.amazon.com/kindle/shop?tag=googhydr-20&hvadid=453973924243&hvpos=&hvnetw=g&hvrand=16418863914383315380&hvpone=&hvptwo=&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9005941&hvtargid=kwd-294877324766&ref=pd_sl_49w5e0dwca_e">Kindle</a>. </p>
+
+<!-- hidden info button -->
+<button id="hiddeninfobutton" type="button" onclick="hiddeninfo()" style="display:none">Give me MORE INFORMATION!</button>
+<p id="hiddeninfo" style="display:none">This calculator will estimate the amount of trees saved by an Ebook implementation over traditional paper books. Using a books total page length and number of copies produced, it estimates the number of trees saved by assuming a single tree can provide 10,000 pages.</p>
+
+<!-- Calculator Code Starts Here!!!-->
+<h2>How many trees can Ebooks save?</h2>
+<p>Use the calculator below to calculate how many trees using Ebooks can save!</p>
+<h3>Tree Count Calculator</h3>
+
+<!-- wizard -->
+<button id="wizard" type="button" onclick="wizard()" style="display:none">Do it for me, Wizard!</button>
+</br>
+
+<!-- popup -->
+<button id="popup" type="button" onclick="popup()" style="display:none">I need help please!</button>
+</br>
+
+<!-- Coach Marks -->
+<p id="coachmarks_1" style="display:none"> Enter the number of pages into the form below</p>
+<p id="coachmarks_2" style="display:none"> Now, enter the number of physical copies of the books</p>
+<P id="coachmarks_3" style="display:none"> Now click the Calculate Tree's Saved button</p>
+
+<!-- base input forms -->
+<input id="pages" type="number" placeholder="Pages per book" onkeydown="pagesenter()" onmouseover="pageshint()" style="display:none"> <!-- always on by default -->
+<input id="copies" type="number" placeholder="Number of copies" onkeydown="copiesenter()" onmouseover = "copieshint()" style="display:none">
+<button id="button" type="button" onclick="CalcTrees()" onmouseover="buttonhint()" style="display:none">Calculate Trees Saved</button>
+
+<!-- input hints -->
+<p id="hint" style="display:none"></p>
+
+<!-- results -->
+<p id="answer" style="display:none">
+  The Ebook has saved approximately
+  <strong><span id="showtrees">0</span></strong>
+  trees 🌱
+</p>
+<br>
+
+<!-- overflow menu: color options -->
+<button id="settingsbutton" type="button" onclick="settings()" style="display:none">Settings</button>
+<br>
+<p id="settings" style="display:none">
+<input type="radio" id="bw" name="myradio" value="white" checked onchange="changeTheme()">Black and White<br>
+<input type="radio" id="bg" name="myradio" value="gold" onchange="changeTheme()">Black and Gold<br>
+</p>
+
+
+<!-- Site Map-->
+<p>
+<b>Green Energy Topics</b><br/>
+<i>Paperless
+<a href="newsonline.html">News Online</a> |
+<a href="ClassMaterialOnline.html">Class Materials Online</a> |
+<a href="PaperlessOffice.html">Paperless Office</a> |
+<a href="WebpageBase_cfetterm.html">E-Books</a>
+
+<br/>
+Reuse and Recycle
+<a href="Ewaste&Recyling.html">E-waste and Recycling</a> |
+<a href="CycleOfPurchasing.html">Cycle of Purchasing</a> |
+<a href="ReusingOldComputers.html">Reusing Old Computers</a> |
+
+<br/>
+Reduce
+<a href="JustInTimeInventory.html">Just-in-time Inventory</a> |
+<a href="OnlineMeetings.html">Online Meetings</a> |
+<a href="Egifts.html">E-Gifts</a> |
+
+<br/>
+Energy
+<a href="WastedEnergy.html">Wasted Energy</a> |
+<a href="SmartBuildings.html">Smart Buildlings</a> |
+<a href="ComputerInefficiences.html">Computer Inefficiencies</a> |
+</i>
+</body>
+</html>
